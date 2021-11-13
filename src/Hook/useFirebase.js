@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import initializeFirebase from "../firebase.init"
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, signOut,onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 initializeFirebase();
 const useFirebase=()=>{
 const [user, setUser] = useState({});
 const [isLoading, setIsLoading]=useState(true);
+
 const auth = getAuth();
 const registerUser =(email, password, history) =>{
   setIsLoading(true);
@@ -23,22 +24,22 @@ const registerUser =(email, password, history) =>{
     })
     .finally(()=> setIsLoading(false));
 }
-const loginUser =(email, password, location, history ) =>{
+const loginUser = (email, password, location, history) => {
   setIsLoading(true);
-    signInWithEmailAndPassword(auth, email, password)
+  signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    const destination = location?.state?.from || '/';
-    history.replace(destination);
     // Signed in 
     const user = userCredential.user;
+    const destination = location?.state?.from || '/order/:orderId';
+                history.replace(destination);
     // ...
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+    console.log(errorMessage)
   })
-  .finally(()=> setIsLoading(false));
-
+  .finally(() => setIsLoading(false));
 }
 
 
@@ -55,7 +56,7 @@ useEffect(()=>{
         setIsLoading(false);
       });
       return ()=> unsubscribed;
-}, [])
+}, [auth])
 
 const logout=()=>{
   setIsLoading(true);

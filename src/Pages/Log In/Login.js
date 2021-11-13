@@ -3,17 +3,18 @@ import img from '../../img/login.jpg'
 import { useForm  } from "react-hook-form";
 import { NavLink, useLocation, useHistory } from "react-router-dom";
 import useAuth from "../../Hook/useAuth";
+import { Alert } from "react-bootstrap";
 
 const Login =()=>{
 
 
-    const { register, handleSubmit } = useForm();
-    const {user, loginUser, reset} = useAuth();
+    const { register, handleSubmit, reset } = useForm();
+    const {user, loginUser} = useAuth();
     const location= useLocation()
     const history = useHistory();
   const onSubmit = data => {
     loginUser(data.Email, data.Password , location, history)
-    reset();
+     reset()   
   }
    
   return (<div className="container">
@@ -44,11 +45,7 @@ const Login =()=>{
     </div>
          
       </div>
-      {
-        user?.Email && <div className="alert alert-info" role="alert">
-        Account Created!
-      </div>
-      }
+      {user?.email && <Alert severity="success">Login successfully!</Alert>}
   </div>
 
 
