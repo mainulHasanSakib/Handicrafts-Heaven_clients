@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import initializeFirebase from "../firebase.init"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import axios from "axios";
 initializeFirebase();
 const useFirebase=()=>{
 const [user, setUser] = useState({});
 const [isLoading, setIsLoading]=useState(true);
-
+const [admin, setAdmin]=useState(false)
 const auth = getAuth();
 const registerUser =(email, password, history) =>{
   setIsLoading(true);
@@ -15,6 +16,7 @@ const registerUser =(email, password, history) =>{
       // Signed in 
       const user = userCredential.user;
       // ...
+      saveUser(user)
       history.replace('/')
     })
     .catch((error) => {
@@ -30,7 +32,9 @@ const loginUser = (email, password, location, history) => {
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    const destination = location?.state?.from || '/order/:orderId';
+    
+
+    const destination = location?.state?.from || '/';
                 history.replace(destination);
     // ...
   })
@@ -58,6 +62,13 @@ useEffect(()=>{
       return ()=> unsubscribed;
 }, [auth])
 
+useEffect(()=>{
+  fetch(`https://nameless-basin-43410.herokuapp.com/users/${user.email}`)
+  .then(res=>res.json())
+  .then(data=> setAdmin(data.admin))
+}, [user.email])
+
+
 const logout=()=>{
   setIsLoading(true);
     signOut(auth).then(() => {
@@ -67,10 +78,22 @@ const logout=()=>{
       })
       .finally(()=> setIsLoading(false));
 }
-
+const saveUser=(data)=>{
+  
+  axios.post('https://nameless-basin-43410.herokuapp.com/users', data)
+  .then(res=>{
+    console.log(res)
+    if(res.data.insertedId){
+        alert('User Added successfully')
+        
+    }
+    
+})
+}
 
 return{
     user,
+    admin,
     isLoading,
     registerUser,
     loginUser,

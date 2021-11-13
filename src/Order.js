@@ -1,7 +1,10 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 import useAuth from './Hook/useAuth';
+import Header from './Shared/Header';
+import Footer from './Shared/Footer';
 
 const Order = () => {
     const {orderId}=useParams()
@@ -9,17 +12,26 @@ const Order = () => {
     const [products, setProducts]=useState([]);
     const {user} = useAuth()
     const onSubmit = data => {
-        console.log(data)
-        reset()
+       axios.post('https://nameless-basin-43410.herokuapp.com/orders', data)
+       .then(res =>{
+        console.log(res)
+        if(res.data.insertedId){
+            alert('Order Confirmed successfully')
+            reset()
+        }
+        
+    })
     }
     useEffect(()=>{
-        fetch("http://localhost:5000/products")
+        fetch("https://nameless-basin-43410.herokuapp.com/products")
         .then((res)=>res.json())
         .then((data)=>setProducts(data))
     } ,[])
 
     const foundProduct = products.find((product)=>product._id == orderId )
     return (
+        <>
+        <Header/>
         <div className="container">
             <div className="col-12">
                             <h2 className="fw-bold my-5">
@@ -44,7 +56,7 @@ const Order = () => {
       <input className="p-3 d-flex m-auto my-3 shadow border-danger" placeholder="name"  {...register("name", { required: true })} />
      
       <input className="p-3 d-flex m-auto my-3 shadow border-danger" placeholder="email" defaultValue={user.email} {...register("email", { required: true })} />
-      <input className="p-3 d-flex  m-auto my-3 shadow border-danger" placeholder="Order Code" defaultValue={orderId} {...register("Order Id", { required: true })} />
+      <input className="p-3 d-flex  m-auto my-3 shadow border-danger" placeholder="Order Name" defaultValue={foundProduct?.name} {...register("orderName", { required: true })} />
       
       
       <input className="p-3 d-flex   m-auto my-3 shadow border-danger" placeholder="Address"{...register("Address", { required: true })} />
@@ -58,6 +70,8 @@ const Order = () => {
         
         </div> 
         </div>
+        <Footer/>
+        </>
     );
 };
 

@@ -4,7 +4,7 @@ import Product from '../Product';
 const Products = () => {
     const[products, setProduts]=useState([]);
     useEffect(()=>{
-        fetch('http://localhost:5000/products')
+        fetch('https://nameless-basin-43410.herokuapp.com/products')
         .then(res=>res.json())
         .then(data=>{
             const sliceData =data.slice(0,6)

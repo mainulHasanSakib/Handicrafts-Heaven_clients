@@ -19,15 +19,15 @@ const Header = () => {
       
       <Nav.Link as={Link} to="/allProduct">GiftBOX</Nav.Link>
       
-      {user?.email ?
-                            <Button onClick={logout} variant="light">Logout</Button> :
+      {user?.email ? <>
+        <Nav.Link as={Link} to="/dashboard"><Button  variant="light">DashBoard</Button></Nav.Link>
+                            <Button onClick={logout} variant="light">Logout</Button>
+                            </> :
                             <Nav.Link as={Link} to="/login">Login</Nav.Link>}
                             <Nav.Link as={Link} to="/register">Register</Nav.Link>
                             
                             
-                        <Navbar.Text>
-                            Hello <a href="#login">{user?.displayName}</a>
-                        </Navbar.Text>
+                         
       
     </Nav>
       

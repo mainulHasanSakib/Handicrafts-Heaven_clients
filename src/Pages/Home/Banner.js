@@ -9,12 +9,7 @@ const Banner = () => {
                <div className="col-12 col-lg-6 col-md-12 text-lg-start  ">
                    <h1 className="fw-bolder text-uppercase ">Crafting  From<br />  Our Hand<br />  To  Yours</h1>
                    <p className="fs-3">A unique collection  of paperwork gifts box <br />  in friendly budget ..</p>
-                   <a href="https://www.facebook.com/HandiCraftsHeavenn" 
-                       style={{textDecoration:"none",
-                                color:"white"
-                    }}
-                    > <button className="btn btn-danger">Order Gift Box</button></a>
-                   
+                 
                    
                </div>
                <div className="col-12 col-lg-6 col-md-12 mt-5  ">
