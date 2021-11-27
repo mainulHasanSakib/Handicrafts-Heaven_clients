@@ -12,7 +12,7 @@
 
 * Utilized: React JS, Node Js, Express JS, MongoDB, Bootstrap, HTML/CSS, Heroku, Git, Firebase.
 
-# Something about Develope
+# Something about Developer
 
 
 ![Front End Web Developer](https://github.com/n202012mhsakib/n202012mhsakib/blob/gh-pages/New%20Project.jpg)
